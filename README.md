@@ -1,5 +1,5 @@
 # Python_webservices
-Falcon python webservices
+Falcon python web services
 
 <p align="center" width="100%">
     <img width="25%" src="https://github.com/jkaewprateep/Python_webservices/blob/main/Python.jpg">
@@ -9,6 +9,12 @@ Falcon python webservices
     <b> Create Python webserice with Falcon </b> </br>
     <b> ( Picture from Internet ) </b> </br>
 </p>
+
+🧸💬 Create a simple Python web service with Falcon, support HTTPS SSL, authentication methods, and Python library that runs with minimized resources. Possible for debugging and performing data analysis with many ready-to-use Python libraries. </br>
+🐑💬 ➰ Python is not the fastest programming language running on complied code but is easy to implement user-friendly and adaptable, application is widely used in many areas including data science, research, and study, machine learning, adjustable display, and simulation. </br> 
+🐐💬 Python and R-studio languages are more compatible when R-studio allows to perform some operation on dataset records by Python library or their library, implementation is simple when the build method is a famous way for data integration and communication. Do not forget to initial or remember ```__str__``` or ```__name__```is at the time value return and it may not equal or differently equal when step to next record or process task. This technique called ```instance variables``` allowed access to a value between processes without interrupts or method overriding. </br>
+
+🐯💬 Culture INFO, should have only one name or one instance name because it is an expectation reason and you can have more than one or two integrated functions or you should perform by logit methods. </br>
 
 ```
 import json
@@ -31,7 +37,7 @@ class PositionModel(object) :
     def __init__(self, comingFrom):
         super().__init__();
         self.name = "PositionModel";
-        self.authen = Alpaca_authen.authentication_struct( APCA_API_KEY_ID="PKU50NJU0ZQYJCL5KQFI", APCA_API_SECRET_KEY="3hNrEicrq4iciQ6NiQ7ctVXFiEyCedm9YnQ65eUy" );
+        self.authen = Alpaca_authen.authentication_struct( APCA_API_KEY_ID="******", APCA_API_SECRET_KEY="******" );
         self.webreqeusts = webrequest_methods.webrequest_methods();
         # self.orderenums = Enums.OrderEnums();
         self.mongoDB = MongoDB.MongoDBDatabase();
