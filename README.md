@@ -9,3 +9,91 @@ Falcon python webservices
     <b> Create Python webserice with Falcon </b> </br>
     <b> ( Picture from Internet ) </b> </br>
 </p>
+
+```
+import json
+import falcon
+
+##
+from requests.models import PreparedRequest # for url params encoding
+from dateutil import parser # for utc datetime phaser
+
+##
+import webrequest_methods;
+import Alpaca_authen;
+import Enums;
+import MongoDB;
+
+#
+from bson.json_util import dumps;
+
+class PositionModel(object) :
+    def __init__(self, comingFrom):
+        super().__init__();
+        self.name = "PositionModel";
+        self.authen = Alpaca_authen.authentication_struct( APCA_API_KEY_ID="PKU50NJU0ZQYJCL5KQFI", APCA_API_SECRET_KEY="3hNrEicrq4iciQ6NiQ7ctVXFiEyCedm9YnQ65eUy" );
+        self.webreqeusts = webrequest_methods.webrequest_methods();
+        # self.orderenums = Enums.OrderEnums();
+        self.mongoDB = MongoDB.MongoDBDatabase();
+        return;
+    
+    def __str__ ():
+        return "PositionModel";
+        
+    def on_get(self, req, resp):
+        requester = req.context.auth["user"];
+
+        resp.status = falcon.HTTP_200;
+        response = dumps(self.getall_openpositions(self.authen));
+        resp.text = response;
+        resp.data = response; 
+        self.mongoDB.insert_transactionlogging( req.headers, req.url, response, req.remote_addr, req.headers["USER-AGENT"], requester );
+
+        return;
+
+    def on_post(self, req, resp, symbol):
+        requester = req.context.auth["user"];
+
+        resp.status = falcon.HTTP_201;
+        response = dumps(self.getan_openposition(symbol, self.authen));
+        resp.text = response;
+        resp.data = response;      
+        self.mongoDB.insert_transactionlogging( req.headers, req.url, response, req.remote_addr, req.headers["USER-AGENT"], requester );
+        return;
+
+    def getan_openposition ( self, symbol, authen, url="https://paper-api.alpaca.markets/v2/positions"  ) :
+        url = url + "/" + symbol;
+
+        data = dict({ });
+        params = dict({ });
+
+        attributes=dict({});
+
+        response_msg = self.webreqeusts.request_GET( data, params, authen, url);
+
+        return response_msg
+    
+    def getall_openpositions ( self, authen, url="https://paper-api.alpaca.markets/v2/positions"  ) :
+
+        data = dict({ });
+        params = dict({ });
+
+        attributes=dict({});
+
+        listof_items = [['QCOM', '39be1334-06b6-4df2-a2f1-b21b942628d0'], ['SMCI', 'e4870680-5a31-43e0-a477-c47d158ac43d'], ['TSLA', '8ccae427-5dd0-45b3-b5fe-7ba5e422c766'], 
+                        ['AMZN', 'f801f835-bfe6-4a9d-a6b1-ccbb84bfd75f'], ['GOOGL', '69b15845-7c63-4586-b274-1cfdfe9df3d8'], ['META', 'fc6a5dcd-4a70-4b8d-b64f-d83a6dae9ba4'], 
+                        ['TQQQ', 'dce2ac30-c928-4416-be25-2213d057f30a'], ['AAPL', 'b0b6dd9d-8b9b-48a9-ba46-b9d54906e415'], ['AMD', '03fb07bb-5db1-4077-8dea-5d711b272625'], 
+                        ['COIN', '1f3f7283-250d-4477-8b1e-037df55e5046'], ['CRWD', '26226278-b62c-47ec-a1bd-cf0dbd14b420'], ['SQQQ', 'cac38c1a-e01f-4d29-ab11-13c9c72991ce'], 
+                        ['MSFT', 'b6d1aa75-5c9c-4353-a305-9e2caa1925ab'], ['MSTR', 'a9be5ee1-9ac7-4dbc-a09e-bb4ba98a3a19'], ['NFLX', 'bb2a26c0-4c77-4801-8afc-82e8142ac7b8'], 
+                        ['NVDA', '4ce9353c-66d1-46c2-898f-fce867ab0247']];
+        
+        
+        response_msg = [];
+        for symbol, asset_id in listof_items :
+            response_msg.append(self.getan_openposition(asset_id, self.authen));
+
+        # response_msg = self.webreqeusts.request_GET( data, params, authen, url);
+
+        return response_msg;
+    
+```
